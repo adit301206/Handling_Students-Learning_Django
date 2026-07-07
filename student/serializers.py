@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import StudentData1
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class StudentSerializer (serializers.ModelSerializer):
     class Meta:
@@ -37,3 +38,13 @@ class MarksSerializer (serializers.ModelSerializer):
         if not (0 <= value <= 25):
             raise serializers.ValidationError("COA marks should be between 0 and 25.")
         return value
+    
+
+class StudentDBTokenSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        is_faculty = user.groups.filter(name="Faculty").exists()
+        token['role'] = 'faculty' if is_faculty else 'student'
+        token['username'] = user.username
+        return token
