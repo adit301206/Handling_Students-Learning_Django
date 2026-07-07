@@ -4,7 +4,8 @@ from .models import StudentData1
 class StudentSerializer (serializers.ModelSerializer):
     class Meta:
         model = StudentData1
-        fields = ["id" , "name" , "roll" , "enroll" , "desc" , "email" , "url" , "python" , "fsd" , "coa" , "total" , "percentage"]
+        fields = ["id" , "name" , "roll" , "enroll" , "desc" , "email" , "url" , "python" , "fsd" , "coa"]
+        # "total" , "percentage"
 
         def get_total(self , obj):
             return obj.python + obj.fsd + obj.coa
@@ -15,7 +16,7 @@ class StudentSerializer (serializers.ModelSerializer):
             return round((total / 75) * 100 , ndigits=2)
         
 
-class MarksSerializer (serializers.ModelSeriaizer):
+class MarksSerializer (serializers.ModelSerializer):
     class Meta:
         model = StudentData1
         fields = ["python" , "fsd" , "coa"]

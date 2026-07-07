@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import StudentData1
-from .serializers import StudentSerializer
+from .serializers import StudentSerializer , MarksSerializer
 
 class StudentViewSet (viewsets.ReadOnlyModelViewSet):
     queryset = StudentData1.objects.all()
@@ -16,3 +16,11 @@ class StudentViewSet (viewsets.ReadOnlyModelViewSet):
 
     def update_marks (self , request , pk = None):
         student = self.get_object()
+
+        serializer = MarksSerializer(student , data=request.data , partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(self.get_serializer_class(student).data)
+        
+        return Response(serializer.errors , status=status.HTTP_400_BAD_REQUEST)
