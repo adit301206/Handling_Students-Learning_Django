@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        {% if error %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+        
+
+        {% else %}
+            <h2>{{ data.name }}</h2>
+            <p>Enrollment Number : {{ data.enroll }}</p>
+
+            <img src="{{ data.image.url }}" height="200" width="200">
+            
+            <p>Roll Number : {{ data.roll }}</p>
+
+            <p>{{ data.desc }}</p>
+
+            <p><b>Email : {{ data.email }}</b></p>
+
+            {% if data.url %}
+                <p><a href="{{ data.url }}">{{ data.url }}</a></p>
+            {% endif %}
+
+            <hr>
+
+            <h3>Marks</h3>
+
+            <ul>
+                <li>Python : {{ data.python }}</li>
+                <li>FSD : {{ data.fsd }}</li>
+                <li>COA : {{ data.coa }}</li>
+            </ul>
+
+            {% if is_faculty %}
+                <a href="{% url 'edit_marks' data.id %}" class="btn btn-warning">Edit Marks</a>
+                <a href="{% url 'delete_student' data.id %}" class="btn btn-danger">Delete Student</a>
+            {% endif %}
+        {% endif %}
+    </div>
+
+{% endblock %}
