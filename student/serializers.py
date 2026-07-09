@@ -3,18 +3,21 @@ from .models import StudentData1
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class StudentSerializer (serializers.ModelSerializer):
+    total = serializers.SerializerMethodField()
+    percentage = serializers.SerializerMethodField()
+
     class Meta:
         model = StudentData1
-        fields = ["id" , "name" , "roll" , "enroll" , "desc" , "email" , "url" , "python" , "fsd" , "coa"]
+        fields = ["id" , "name" , "roll" , "enroll" , "desc" , "email" , "url" , "python" , "fsd" , "coa" , "total" , "percentage"]
         # "total" , "percentage"
 
-        def get_total(self , obj):
-            return obj.python + obj.fsd + obj.coa
+    def get_total(self , obj):
+        return obj.python + obj.fsd + obj.coa
         
-        def get_percentage(self , obj):
-            total = obj.python + obj.fsd + obj.coa
+    def get_percentage(self , obj):
+        total = obj.python + obj.fsd + obj.coa
         
-            return round((total / 75) * 100 , ndigits=2)
+        return round((total / 300) * 100 , ndigits=2)
         
 
 class MarksSerializer (serializers.ModelSerializer):
