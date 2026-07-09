@@ -26,7 +26,7 @@ class MarksSerializer (serializers.ModelSerializer):
         fields = ["python" , "fsd" , "coa"]
 
     def python_validate(self , value):
-        if not (0 <= value <= 25):
+        if not (0 <= value <= 100):
             raise serializers.ValidationError("Python marks should be between 0 and 25.")
         return value
     
@@ -51,3 +51,23 @@ class StudentDBTokenSerializer(TokenObtainPairSerializer):
         token['role'] = 'faculty' if is_faculty else 'student'
         token['username'] = user.username
         return token
+    
+
+class StudentSerializerV2(StudentSerializer):
+    grade = serializers.SerializerMethodField()
+
+    class Meta(StudentSerializer.Meta):
+        fields : StudentSerializer.Meta.fields + ["grade"]
+
+    def get_grade(self , obj):
+        pct = self.get_percentage(obj)
+
+        if pct >= 70:
+            return "Distinction"
+        elif pck >= 60:
+            return "First Class"
+        elif pct >= 50:
+            return "Second Class"
+        elif pct >= 35:
+            return "Pass"
+        return "Fail"

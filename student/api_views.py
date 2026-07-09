@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import StudentData1
-from .serializers import StudentSerializer , MarksSerializer , StudentDBTokenSerializer
+from .serializers import StudentSerializer , MarksSerializer , StudentDBTokenSerializer , StudentSerializerV2
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .permissions import IsFaculty , IsOwnerOrFaculty
 
@@ -13,7 +13,10 @@ class StudentViewSet (viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated , IsOwnerOrFaculty]
 
     def get_serializer_class(self):
-        return super().get_serializer_class()
+        if self.request.version == 'v2':
+            return StudentSerializerV2
+        
+        return StudentSerializer
     
 
     @action(
