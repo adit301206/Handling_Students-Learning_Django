@@ -10,7 +10,7 @@ from .permissions import IsFaculty , IsOwnerOrFaculty
 class StudentViewSet (viewsets.ReadOnlyModelViewSet):
     queryset = StudentData1.objects.all()
     serializer_class = StudentSerializer
-    permission_classes = [IsAuthenticated , IsOwnerOrFaculty]
+    permission_classes = []  # IsAuthenticated , IsOwnerOrFaculty
 
     def get_serializer_class(self):
         if self.request.version == 'v2':
