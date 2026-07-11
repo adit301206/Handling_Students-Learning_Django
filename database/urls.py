@@ -29,6 +29,7 @@ urlpatterns = [
     path('api-auth/' , include("rest_framework.urls")),
     path('api/token/' , StudentDBTokenView.as_view()),
     path('api/token/refresh/' , TokenRefreshView.as_view()),
+    path('api/<version>/' , include(("student.api_urls" , "api"))),
 ]
 
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

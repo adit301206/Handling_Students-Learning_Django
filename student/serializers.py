@@ -57,14 +57,14 @@ class StudentSerializerV2(StudentSerializer):
     grade = serializers.SerializerMethodField()
 
     class Meta(StudentSerializer.Meta):
-        fields : StudentSerializer.Meta.fields + ["grade"]
+        fields = StudentSerializer.Meta.fields + ["grade"]
 
     def get_grade(self , obj):
         pct = self.get_percentage(obj)
 
         if pct >= 70:
             return "Distinction"
-        elif pck >= 60:
+        elif pct >= 60:
             return "First Class"
         elif pct >= 50:
             return "Second Class"
